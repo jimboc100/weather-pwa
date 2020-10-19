@@ -1,0 +1,285 @@
+@import './reset.css';
+
+/*
+  Screen reader only
+*/
+.sr-only {
+    position: absolute;
+    width   : 1px;
+    height  : 1px;
+    padding : 0;
+    margin  : -1px;
+    overflow: hidden;
+    clip    : rect(0, 0, 0, 0);
+    border  : 0;
+}
+
+/*
+  ===================================================
+  Base styles for all devices sizes, but mobile first
+  ===================================================
+*/
+
+/* Variables */
+:root {
+    /* Fonts */
+    --serif: Sanchez, serif;
+    --sans: Barlow, sans-serif;
+
+    /* Colors */
+    --green: #007b48;
+    --yellow: #ffc140;
+    --gray-bg: #dddddd;
+
+
+
+
+    --header-height: 3em;
+}
+
+@media (min-width: 768px) {
+    :root {
+        --header-height: 5em;
+    }
+}
+
+body {
+    padding    : 0;
+    margin     : 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+header {
+    height          : var(--header-height);
+    background-color: var(--green);
+    display         : flex;
+    align-items     : center;
+    justify-content : space-between;
+    padding         : 0 .25em;
+}
+
+
+section {
+    height: 5em;
+    background-color: var(--gray-bg);
+}
+
+
+:focus:not(:focus-visible) {
+    outline: 0;
+}
+
+:focus-visible {
+    outline   : 0;
+    box-shadow: 0 0 0 2pt red;
+}
+
+#logo {
+    height: 2em;
+    width : 2em;
+}
+
+#main-menu-toggle {
+    -webkit-appearance: none;
+    appearance        : none;
+    border            : none;
+    background        : transparent;
+    border-radius     : .25em;
+}
+
+#main-menu-toggle:focus {
+    background-color: white;
+    color           : var(--green);
+}
+
+/*
+  Offscreen menu styling
+  - Default styles + mobile first
+*/
+.main-menu {
+    position  : absolute;
+    display   : none;
+    left      : 100%;
+    top       : 0;
+    height    : 100%;
+    overflow-y: scroll;
+    overflow-x: visible;
+    z-index: 999;
+    background        : #fff;
+}
+
+.main-menu ul {
+    list-style        : none;
+    margin            : 0;
+    padding           : 0 0.5em;
+    width             : 200px;
+}
+
+/*
+  Generic style for ALL hamburger menu links
+*/
+.main-menu a {
+    display        : block;
+    padding        : .75em 15px;
+    line-height    : 1em;
+    font-size      : 1em;
+    color          : var(--green);
+    text-decoration: none;
+    border-top  : 1px solid #cfcac2;
+}
+
+.main-menu a.menu-close {
+    border-bottom: 0;
+}
+
+.main-menu li:last-child a {
+    border-bottom: 1px solid #cfcac2;
+}
+
+
+/*
+  =======================================
+  On small devices, allow it to toggle...
+  =======================================
+*/
+
+.main-menu[aria-expanded="true"] {
+    display           : block;
+    left              : calc(100% - 200px);
+    outline           : none;
+}
+
+.main-menu[aria-expanded="true"] .menu-close {
+    z-index: 1001;
+}
+
+.main-menu[aria-expanded="true"] ul {
+    position: relative;
+    z-index : 1000;
+}
+
+.main-menu[aria-expanded="true"]+.backdrop {
+    position  : absolute;
+    display   : block;
+    right     : 0;
+    top       : 0;
+    width     : 100%;
+    height    : 100%;
+    z-index   : 998;
+    background: #000;
+    background: rgba(0, 0, 0, .5);
+    cursor    : default;
+}
+
+
+
+
+#close-container {
+    height          : var(--header-height);
+    display         : flex;
+    align-items     : center;
+    justify-content : flex-end;
+    padding         : 0 .25em;
+}
+
+#main-menu-close {
+    -webkit-appearance: none;
+    appearance        : none;
+    border            : none;
+    background        : transparent;
+    border-radius     : .25em;
+}
+
+#main-menu-close:focus {
+    background-color: white;
+    color           : var(--green);
+}
+
+
+
+
+
+
+
+
+
+/*
+  ======================================================
+  If CSS supports `fixed`, like all good modern browsers
+  ======================================================
+*/
+@supports (position: fixed) {
+
+    /*
+    Allow backdrop to stay fixed and not "scroll"
+  */
+    .main-menu,
+    .main-menu[aria-expanded="true"]+.backdrop {
+        position: fixed;
+    }
+}
+@supports (position: sticky) {
+
+    /*
+    Allow backdrop to stay fixed and not "scroll"
+  */
+    header{
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+    }
+}
+
+/*
+  ================================
+  Larger screen styling
+  ================================
+*/
+
+/*
+  Horizontal menu (i.e. no hamburger)
+*/
+@media (min-width: 768px) {
+
+    /* Hide hamburger menu/'button' */
+    .menu-toggle,
+    .main-menu .menu-close {
+        display: none;
+    }
+
+    /* Undo positioning of off-canvas menu */
+    .main-menu {
+        position: relative;
+        left    : auto;
+        top     : auto;
+        height  : auto;
+        display : block;
+    }
+
+    .main-menu ul {
+        display: flex;
+        /* allows for full height of menu */
+
+        /* Undo off-canvas styling */
+        padding           : 0;
+        -webkit-box-shadow: none;
+        -moz-box-shadow   : none;
+        box-shadow        : none;
+        height            : auto;
+        width             : auto;
+        background        : none;
+    }
+
+    .main-menu a {
+        color : #06c;
+        border: 0 !important;
+        /* Remove borders from off-canvas styling */
+    }
+
+    .main-menu a:hover,
+    .main-menu a:focus {
+        background: none;
+        /* Remove background from off-canvas styling */
+        color     : #c00;
+    }
+}
